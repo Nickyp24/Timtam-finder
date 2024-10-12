@@ -23,55 +23,32 @@
 </head>
 <body>
 
-<h1>Find the Cheapest Tim Tams Near You!</h1>
+<h1>Find Tim Tams at Woolworths</h1>
 <button id="find-btn">Find Stores</button>
 <div class="result" id="result"></div>
 
 <script>
     document.getElementById('find-btn').addEventListener('click', function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition, showError);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
+        fetchWoolworthsData();
     });
 
-    function showPosition(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const apiKey = 'AIzaSyDGjCSPc7u8-dYPjUhTgEy12QZL1dy6BUY';
-        const apiUrl = `https://thingproxy.freeboard.io/fetch/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=5000&type=supermarket&keyword=Tim%20Tams&key=${apiKey}`;
-
+    function fetchWoolworthsData() {
+        const apiUrl = 'https://www.woolworths.com.au/apis/ui/product/search?searchTerm=Tim%20Tams';
+        
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
-                if (data.results.length > 0) {
-                    const store = data.results[0];
-                    alert(`Found store: ${store.name} at ${store.vicinity}`);
+                if (data.Products.length > 0) {
+                    const product = data.Products[0]; // Get the first product (Tim Tams)
+                    document.getElementById('result').innerHTML = 
+                        `Found Tim Tams at Woolworths for $${product.Price}. Available at Woolworths stores.`;
                 } else {
-                    alert("No stores found nearby.");
+                    document.getElementById('result').innerHTML = "No Tim Tams found at Woolworths.";
                 }
             })
             .catch(error => {
-                alert(`Error: ${error.message}`);
+                document.getElementById('result').innerHTML = `Error: ${error.message}`;
             });
-    }
-
-    function showError(error) {
-        switch(error.code) {
-            case error.PERMISSION_DENIED:
-                alert("User denied the request for Geolocation.");
-                break;
-            case error.POSITION_UNAVAILABLE:
-                alert("Location information is unavailable.");
-                break;
-            case error.TIMEOUT:
-                alert("The request to get user location timed out.");
-                break;
-            case error.UNKNOWN_ERROR:
-                alert("An unknown error occurred.");
-                break;
-        }
     }
 </script>
 

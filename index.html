@@ -40,7 +40,7 @@
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         const apiKey = 'AIzaSyDGjCSPc7u8-dYPjUhTgEy12QZL1dy6BUY';
-        const apiUrl = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=5000&type=supermarket&keyword=Tim Tams&key=${apiKey}`;
+        const apiUrl = `https://api.allorigins.win/raw?url=https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=5000&type=supermarket&keyword=Tim%20Tams&key=${apiKey}`;
 
         fetch(apiUrl)
             .then(response => response.json())

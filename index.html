@@ -33,12 +33,13 @@
     });
 
     function fetchWoolworthsData() {
-        const apiUrl = 'https://www.woolworths.com.au/apis/ui/product/search?searchTerm=Tim%20Tams';
+        // Use CORS proxy to bypass restrictions
+        const apiUrl = 'https://thingproxy.freeboard.io/fetch/https://www.woolworths.com.au/apis/ui/product/search?searchTerm=Tim%20Tams';
         
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
-                if (data.Products.length > 0) {
+                if (data.Products && data.Products.length > 0) {
                     const product = data.Products[0]; // Get the first product (Tim Tams)
                     document.getElementById('result').innerHTML = 
                         `Found Tim Tams at Woolworths for $${product.Price}. Available at Woolworths stores.`;
